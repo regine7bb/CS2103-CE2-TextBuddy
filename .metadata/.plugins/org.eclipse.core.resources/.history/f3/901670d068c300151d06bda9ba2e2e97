@@ -1,0 +1,94 @@
+import java.util.*;
+import java.io.*;
+import java.nio.file.*;
+
+public class TextBuddy {
+	private static Scanner input = new Scanner(System.in);
+	private static Formatter output;
+	public static void main (String args[]) throws IOException{
+		saveFile();
+		openFileToAdd();
+		addFile();
+		closeFileAdd();
+		openFileToRead();
+		readFile();
+		closeFileRead();
+	}
+	private static void openFileToRead() {
+		// TODO Auto-generated method stub
+		try{
+			input = new Scanner(Paths.get("expected.txt"));
+		}
+		catch(IOException ioEx){
+			System.err.println("Error opening file.Terminatng.");
+		}
+	}
+	private static void readFile() {
+		// TODO Auto-generated method stub
+		try{
+			int count=1;
+			while(input.hasNext()){
+				System.out.printf("%d. %s", count,input.next());
+				count++;
+			}
+		}
+		catch(NoSuchElementException ee){
+			System.err.println("File inproperly formed.");
+		}
+		catch(IllegalStateException se){
+			System.err.println("Error reading.");
+		}
+	}
+	private static void closeFileAdd() {
+		// TODO Auto-generated method stub
+		if (output!=null){
+			output.close();
+		}
+	}
+	private static void closeFileRead() {
+		// TODO Auto-generated method stub
+		if (input!=null){
+			input.close();
+		}
+	}
+	public static void addFile() {
+		// TODO Auto-generated method stub
+		System.out.printf("Enter Action, text");
+		while(input.hasNext()){
+			try{
+				output.format("%s %s",input.next(),input.next());
+			}
+			catch(FormatterClosedException fce){
+				System.err.println("Error writing to file. Terminating.");
+				break;
+			}
+			catch(NoSuchElementException ee){
+				System.err.println("Invalid input. Please try again");
+				input.nextLine();
+			}
+			System.out.print("command:");
+		}
+	}
+	public static void openFileToAdd() {
+		// TODO Auto-generated method stub
+		try{
+			output = new Formatter("expected.txt");
+		}		
+		catch(FileNotFoundException fnf){
+			System.err.println("Error opening file.");
+		}
+	}
+	public static void saveFile() throws IOException{
+		System.out.println("Enter txt file name:");
+		Path path = Paths.get(input.nextLine());
+		if(Files.exists(path)){
+			System.out.printf("%n%s exists%n",path.getFileName());
+			System.out.printf("Last modified: %s%n"
+					, Files.getLastModifiedTime(path));
+		}
+		else{
+			System.out.printf("%s does not exits%n", path);
+		}
+	}
+}
+		

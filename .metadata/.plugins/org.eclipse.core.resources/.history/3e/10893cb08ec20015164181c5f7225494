@@ -1,0 +1,10 @@
+import java.io.Console;
+public class TextBuddy {
+	public static void main (String args[]){
+		Console c = System.console();
+		if(c==null){
+			System.exit(1);
+		}
+	}
+	
+}

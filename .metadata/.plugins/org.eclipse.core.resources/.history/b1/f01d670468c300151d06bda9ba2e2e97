@@ -1,0 +1,27 @@
+import java.util.Scanner;
+import java.util.Collections;
+import java.io.IOException;
+
+import java.nio.file.*;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+
+public class TextBuddy {
+	private static Scanner input = new Scanner(System.in);
+	public static void main (String args[]) throws IOException{
+		saveFile();
+	}
+	public static void saveFile() throws IOException{
+		System.out.println("Enter txt file name:");
+		Path path = Paths.get(input.nextLine());
+		if(Files.exists(path)){
+			System.out.printf("%n%s exists%n",path.getFileName());
+			System.out.printf("Last modified: %s%n"
+					, Files.getLastModifiedTime(path));
+		}
+		else{
+			System.out.printf("%s does not exits%n", path);
+		}
+	}
+}
+		
